@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "agentspec"
+name = "agentspec-cli"
 version = "0.1.0"
 description = "Auto-test and validate agent-generated APIs. CLI + MCP server for the agent era."
 readme = "README.md"
