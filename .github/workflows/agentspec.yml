@@ -1,0 +1,59 @@
+# agentspec API Tests
+#
+# GitHub Actions workflow template for running agentspec tests against your API.
+# Copy this file to your repository's .github/workflows/ directory and adjust
+# the server start command, base URL, and Python version to match your project.
+#
+# For full documentation, see: https://github.com/your-org/agentspec
+
+name: agentspec API Tests
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  api-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          pip install agentspec
+          pip install -r requirements.txt
+
+      - name: Start API server
+        run: |
+          # Adjust this to your API's start command
+          uvicorn app.main:app --port 8000 &
+          sleep 5  # Wait for server to start
+
+      - name: Run agentspec tests
+        run: |
+          agentspec test app/ \
+            --base-url http://localhost:8000 \
+            --format junit \
+            --output agentspec-results.xml
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: agentspec-results
+          path: agentspec-results.xml
+
+      - name: Publish test report
+        if: always()
+        uses: mikepenz/action-junit-report@v4
+        with:
+          report_paths: agentspec-results.xml
+          fail_on_failure: true
