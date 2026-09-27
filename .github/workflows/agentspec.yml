@@ -1,59 +1,49 @@
-# agentspec API Tests
-#
-# GitHub Actions workflow template for running agentspec tests against your API.
-# Copy this file to your repository's .github/workflows/ directory and adjust
-# the server start command, base URL, and Python version to match your project.
-#
-# For full documentation, see: https://github.com/your-org/agentspec
-
-name: agentspec API Tests
+name: CI
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main]
   pull_request:
     branches: [main]
 
 jobs:
-  api-tests:
+  test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: ${{ matrix.python-version }}
 
-      - name: Install dependencies
+      - name: Install agentspec + sample API deps
         run: |
-          pip install agentspec
-          pip install -r requirements.txt
+          pip install -e ".[dev]"
 
-      - name: Start API server
+      - name: Syntax check all source files
         run: |
-          # Adjust this to your API's start command
-          uvicorn app.main:app --port 8000 &
-          sleep 5  # Wait for server to start
+          python -m py_compile src/agentspec/**/*.py src/agentspec/*.py
 
-      - name: Run agentspec tests
+      - name: Start sample API
         run: |
-          agentspec test app/ \
+          uvicorn examples.sample_api.main:app --host 0.0.0.0 --port 8000 &
+          sleep 3
+
+      - name: Self-test — run agentspec against sample API
+        run: |
+          agentspec test examples/sample_api/main.py \
             --base-url http://localhost:8000 \
             --format junit \
-            --output agentspec-results.xml
+            --output results.xml
 
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: agentspec-results
-          path: agentspec-results.xml
-
-      - name: Publish test report
-        if: always()
-        uses: mikepenz/action-junit-report@v4
-        with:
-          report_paths: agentspec-results.xml
-          fail_on_failure: true
+          name: agentspec-results-py${{ matrix.python-version }}
+          path: results.xml
