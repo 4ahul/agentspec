@@ -35,7 +35,7 @@ dependencies = [
 
 [project.optional-dependencies]
 mcp = ["mcp>=1.0.0"]
-all = ["agentspec[mcp]"]
+all = ["agentspec-cli[mcp]"]
 dev = [
     "pytest>=8.0.0",
     "pytest-asyncio>=0.23.0",
@@ -50,10 +50,10 @@ dev = [
 agentspec = "agentspec.cli.main:app"
 
 [project.urls]
-Homepage = "https://github.com/4ahul/agentspec"
-Documentation = "https://github.com/4ahul/agentspec#readme"
-Repository = "https://github.com/4ahul/agentspec"
-Issues = "https://github.com/4ahul/agentspec/issues"
+Homepage = "https://github.com/4ahul/agentspec-cli"
+Documentation = "https://github.com/4ahul/agentspec-cli#readme"
+Repository = "https://github.com/4ahul/agentspec-cli"
+Issues = "https://github.com/4ahul/agentspec-cli/issues"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/agentspec"]
