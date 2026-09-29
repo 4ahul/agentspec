@@ -64,7 +64,7 @@ For every endpoint agentspec discovers, it generates tests across five categorie
 ## Installation
 
 ```bash
-pip install agentspec
+pip install agentspec-cli
 ```
 
 Requires Python 3.10+.
@@ -270,7 +270,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install agentspec fastapi uvicorn
+      - run: pip install agentspec-cli fastapi uvicorn
       - run: uvicorn app.main:app --host 0.0.0.0 --port 8000 &
       - run: sleep 2
       - run: agentspec test app/main.py --base-url http://localhost:8000 --format junit --output results.xml
