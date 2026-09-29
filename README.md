@@ -4,7 +4,7 @@
 
 **Auto-test and validate any API — built for the agent era.**
 
-[![PyPI version](https://img.shields.io/pypi/v/agentspec.svg?style=flat-square&color=blue)](https://pypi.org/project/agentspec/)
+[![PyPI version](https://img.shields.io/pypi/v/agentspec-cli.svg?style=flat-square&color=blue)](https://pypi.org/project/agentspec-cli/)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue?style=flat-square)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE)
 [![MCP Compatible](https://img.shields.io/badge/MCP-compatible-purple?style=flat-square)](https://modelcontextprotocol.io)
