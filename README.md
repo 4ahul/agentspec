@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🧪 agentspec
+# 🧪 agentspec-cli
 
 **Auto-test and validate any API — built for the agent era.**
 
